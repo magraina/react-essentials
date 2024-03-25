@@ -1,4 +1,4 @@
-import { formatter } from '../util/investment';
+import { calculateInvestmentResults, formatter } from '../util/investment';
 
 const getTotalInterest = (results, endIndex) => {
 	let totalInterest = 0;
@@ -9,8 +9,12 @@ const getTotalInterest = (results, endIndex) => {
 	return totalInterest;
 };
 
-function ResultsTable({ results }) {
-	const formatNumber = formatter.format;
+const formatNumber = formatter.format;
+
+function ResultsTable({ input }) {
+	const results = calculateInvestmentResults(input);
+	const initialInvestment = results[0].valueEndOfYear - results[0].interest - results[0].annualInvestment;
+
 	return (
 	<table id='result'>
 		<thead>
@@ -23,15 +27,19 @@ function ResultsTable({ results }) {
 			</tr>
 		</thead>
 		<tbody>
-			{results.map((result, index) => (
+			{results.map((yearData, index) => {
+				const totalInterest = yearData.valueEndOfYear - yearData.annualInvestment * yearData.year - initialInvestment;
+				const totalAmountInvested = yearData.valueEndOfYear - totalInterest;
+
+				return (
 				<tr key={'resultTable' + index}>
-					<td>{result.year}</td>
-					<td>{formatNumber(result.valueEndOfYear)}</td>
-					<td>{formatNumber(result.interest)}</td>
-					<td>{formatNumber(getTotalInterest(results, index))}</td>
-					<td>{formatNumber(result.valueEndOfYear - getTotalInterest(results, index))}</td>
+					<td>{yearData.year}</td>
+					<td>{formatNumber(yearData.valueEndOfYear)}</td>
+					<td>{formatNumber(yearData.interest)}</td>
+					<td>{formatNumber(totalInterest)}</td>
+					<td>{formatNumber(totalAmountInvested)}</td>
 				</tr>
-			))}
+			)})}
 		</tbody>
 	</table>
 	);

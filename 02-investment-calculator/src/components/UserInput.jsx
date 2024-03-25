@@ -1,21 +1,37 @@
 import InputField from './InputField';
 
-
-
-
-function UserInput({ inputFields, handleUserInput }) {
-
+function UserInput({ inputValues, handleUserInput }) {
 	return (
-	<div className='input-group'>
-		{inputFields.map((inputField) => (
+	<section id='user-input'>
+		<div className='input-group'>
 			<InputField 
-				key={inputField.name}
-				name={inputField.name}
-				value={inputField.value}
+				identifier='initialInvestment'
+				name='Initial Investment'
+				value={inputValues.initialInvestment}
 				handleChange={handleUserInput} 
 			/>
-		))}
-	</div>
+			<InputField 
+				identifier='annualInvestment'
+				name='Anual Investment'
+				value={inputValues.annualInvestment}
+				handleChange={handleUserInput} 
+			/>
+		</div>
+		<div className='input-group'>
+			<InputField 
+				identifier='expectedReturn'
+				name='Expected Return'
+				value={inputValues.expectedReturn}
+				handleChange={handleUserInput} 
+			/>
+			<InputField 
+				identifier='duration'
+				name='Duration'
+				value={inputValues.duration}
+				handleChange={handleUserInput} 
+			/>
+		</div>
+	</section>
 	);
 };
 

@@ -1,14 +1,14 @@
-function InputField({ name, value, handleChange }) {
+
+
+function InputField({ identifier, name, value, handleChange }) {
 	return (
 	<div>
-		<label htmlFor={name}>
-			{ name }
-		</label>
+		<label>{ name }</label>
 		<input 
-			name={name}
 			type="number"
 			value={value}
-			onChange={handleChange}
+			onChange={(_event) => handleChange(identifier, _event.target.valueAsNumber)}
+			required
 		/>
 	</div>
 	);
